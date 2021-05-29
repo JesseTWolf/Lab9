@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "82f39a2bf1c346bdbe57e785d21d7ba4"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,17 +64,106 @@
   </section>
 
   <script>
+    // Create custom error class that extends Error.
+    class CalculatorError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'CalculatorError';
+      }
+    }
+
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      try {
+        // Try to evaluate using the two numbers and operator. 
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch(err) {
+          alert('Proud of you. You broke it.');
+      } 
+
+      try {
+        // Throw our custom error for testing purposes.
+        throw new CalculatorError('Kaboom!');
+      } catch(err) {
+        alert(err.message);
+      } finally {
+        alert('Good luck next time.');
+      }
     });
 
+    const groupLabel = 'All My Errors';
+
+    const myTable = [
+      { 
+        first: "Spongebob",
+        last: "Squarepants",
+        age: "35" },
+      {
+        first: "John",
+        last: "Doe",
+        age: "Unknown"
+      }
+    ];
+
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-    // TODO - Make buttons functional
+    // TODO - Make buttons functional (Done)
+
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Console Log Demo');
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console Error Demo');
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.dir(document.head);
+    });
+
+    errorBtns[3].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      console.group(groupLabel);
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.groupEnd(groupLabel);
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.table(myTable);
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+      console.log('Timer Started');
+      console.time('Timer');
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.log('Timer Ended');
+      console.timeEnd('Timer');
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      const crawl = () => { walk(); };
+      const walk = () => { jog(); };
+      const jog = () => { run(); };
+      const run = () => { console.trace(); };
+      crawl();
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      youShouldntHaveDoneThat();
+    });
+
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 </html>
