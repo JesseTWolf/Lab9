@@ -82,7 +82,7 @@
         // Try to evaluate using the two numbers and operator. 
         output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
       } catch(err) {
-          alert('Proud of you. You broke it.');
+          alert('Nice job ... you broke it.');
       } 
 
       try {
@@ -161,6 +161,18 @@
     errorBtns[10].addEventListener('click', () => {
       youShouldntHaveDoneThat();
     });
+
+    window.onerror = function (msg, url, lineNo, columnNo, error) {
+      var message = [
+        'Message: ' + msg,
+        'URL: ' + url,
+        'Line: ' + lineNo,
+        'Column: ' + columnNo,
+        'Error object: ' + JSON.stringify(error)
+      ].join(' - ');
+
+      console.error(message);
+    }
 
     TrackJS.track('Testing TrackJS!');
   </script>
